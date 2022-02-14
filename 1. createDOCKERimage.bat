@@ -1,0 +1,1 @@
+docker build --tag=nitinmanojkumar/spring-boot-library-microservice:latest .

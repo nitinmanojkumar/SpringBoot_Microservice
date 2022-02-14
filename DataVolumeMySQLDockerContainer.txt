@@ -1,0 +1,53 @@
+1. Pull MySQL server Docker image
+docker pull mysql/mysql-server:8
+docker pull mysql:8
+
+2. Create docker volume and specify the location to be stored in the host, the name of the docker volume container and image to which the volume to be used for
+3. Create the container in the port providing the username and pwd as entry points
+docker create -v {source/host path}:{destination/path in the container}C:/PersistentVolume/hostmachine:/var/lib/mysql --name mysqldata_as_volumne_in_host mysql/mysql-server:8
+docker run -p 3306:3306 -d --cap-add=sys_nice --security-opt seccomp=unconfined --network springboot-mysql -e MYSQL_ROOT_PASSWORD=root --volumes-from mysqldata_as_volumne_in_host --name mysqlservercontainername mysql/mysql-server:8
+
+docker create -v {source/host path}:{destination/path in the container}C:/PersistentVolume/hostmachine:/var/lib/mysql --name mysqldata_as_volumne_in_host_notserver mysql:8
+docker run -p 3306:3306 -d --cap-add=sys_nice --security-opt seccomp=unconfined --network springboot-mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=APIDevelopSpringBoot --volumes-from mysqldata_as_volumne_in_host_notserver --name mysqlcontainername mysql:8
+
+4. Open mysql container in bash
+docker exec -it mysqlcontainername bash
+Inside the mysql bash:
+	mysql -uroot -proot
+	create database APIDevelopSpringBoot;
+	show databases;
+	use APIDevelopSpringBoot;
+	CREATE TABLE storage2(book_name varchar(50),id varchar(50),isbn varchar(50),aisle int,author varchar(50),PRIMARY KEY (id));
+	INSERT INTO storage2(book_name,id,isbn,aisle,author) values('CypressDocker','abcd4','abcd','4','Rahul');
+	INSERT INTO storage2(book_name,id,isbn,aisle,author) values('DevopsDocker','fdsefr343','fdsefr3','43','Rahul');
+	INSERT INTO storage2(book_name,id,isbn,aisle,author) values('DevopsDocker','ddy22','ddy','22','Shetty');
+	SET SQL_SAFE_UPDATES = 0;
+	delete from storage2 where isbn='111';
+	select * from storage2;
+
+5. Run the spring boot project jar image as container
+docker run -p 7776:7776 -d --network springboot-mysql --name springbootcontainername spring-boot-library-microservice	
+	
+Inshort:
+docker network create springboot-mysql
+docker pull mysql:8
+
+docker volume create persistent-volume-mysql
+docker run -p 3306:3306 -d --cap-add=sys_nice --security-opt seccomp=unconfined --network springboot-mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=APIDevelopSpringBoot --volumes-from mysqldata_as_volumne_in_host_notserver --name mysqlcontainername mysql:8
+(OR)
+docker volume create persistent-volume-mysql
+docker run -p 3306:3306 -d --network springboot-mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=APIDevelopSpringBoot -v persistent-volume-mysql:/var/lib/mysql --name mysqlcontainername mysql:8
+
+docker exec -it mysqlcontainername bash
+	mysql -uroot -proot
+	create database APIDevelopSpringBoot;
+	show databases;
+	use APIDevelopSpringBoot;
+	CREATE TABLE storage2(book_name varchar(50),id varchar(50),isbn varchar(50),aisle int,author varchar(50),PRIMARY KEY (id));
+	INSERT INTO storage2(book_name,id,isbn,aisle,author) values('CypressDocker','abcd4','abcd','4','Rahul');
+	INSERT INTO storage2(book_name,id,isbn,aisle,author) values('DevopsDocker','fdsefr343','fdsefr3','43','Rahul');
+	INSERT INTO storage2(book_name,id,isbn,aisle,author) values('DevopsDocker','ddy22','ddy','22','Shetty');
+	SET SQL_SAFE_UPDATES = 0;
+	delete from storage2 where isbn='111';
+	select * from storage2;
+docker run -p 7776:7776 -d --network springboot-mysql --name springbootcontainername nitinmanojkumar/spring-boot-library-microservice

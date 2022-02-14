@@ -1,0 +1,42 @@
+netstat -ano | findstr :<PORT>
+taskkill /PID <PID> /F
+
+Shotcut to open cmd promt
+Alt + D
+
+1.Run Spring Boot app with java -jar command
+java -jar target/app-0.0.1-SNAPSHOT.jar
+
+2.Run Spring Boot app using Maven
+mvn spring-boot:run(with no specific profiles which will use MySQL database)
+mvn spring-boot:run -Dspring-boot.run.profiles=dev(run in dev profile which will use H2 database only for Integration tests)
+mvn spring-boot:run -Dspring-boot.run.profiles=@activatedProperties@
+
+3.Run Unit tests
+mvn test
+
+4.Run only Integration tests
+mvn failsafe:integration-test
+
+Include fail safe plugin for running integration tests
+<plugin>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-maven-plugin</artifactId>
+</plugin>
+<plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-failsafe-plugin</artifactId>
+	<version>2.17</version>
+	<executions>
+		<execution>
+			<id>integration-tests</id>
+			<goals>
+				<goal>integration-test</goal>
+				<goal>verify</goal>
+			</goals>
+		</execution>
+	</executions>
+</plugin>
+
+5.Run all tests
+mvn integration-test
