@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +26,7 @@ import com.example.beanMappingORdao.beanForBook;
 import com.example.businessLogicORservice.LibraryService;
 import com.example.repository.LibraryRepository;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/library")
 public class LibraryImplementation {
@@ -41,6 +43,7 @@ public class LibraryImplementation {
 	Greeting greeting;
 
 	// Query Parameter
+	
 	@GetMapping("/greeting")
 	public Greeting getBook(@RequestParam(value = "name") String nameViaURL) {
 		greeting.setMsg("Hey " + nameViaURL + " welcome to our website");
@@ -107,6 +110,7 @@ public class LibraryImplementation {
 
 	}
 	
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@DeleteMapping("/deleteBook")
 	public ResponseEntity deleteBook(@RequestBody beanForBook book) {
 		
