@@ -54,7 +54,8 @@ public class LibraryImplementation {
 	@GetMapping("/getbook/{id}")
 	public ResponseEntity getBookPathParam(@PathVariable (value="id") String id) {
 		try {
-		beanForBook object=service.getBook(id);//repo.findById(id).get();
+		beanForBook object=service.getBook(id);//service.getBook(id)==repo.findById(id).get()
+		//beanForBook object=repo.findById(id).get();//default method from JPARepository to find the record using the ID
 		return new ResponseEntity<beanForBook>(object,HttpStatus.OK);
 		}
 		catch(Exception e){
@@ -71,19 +72,19 @@ public class LibraryImplementation {
 	@GetMapping("/getAllBooks")
 	public List<beanForBook> getAllBooks(){
 		logger.info("get All the books");
-		return repo.findAll();
+		return repo.findAll();//default method from JPARepository to fetch all the records
 	}
 	
 	@PutMapping("/updateAuthor/{id}")
 	public ResponseEntity<beanForBook> updateBookDetailsById(@PathVariable(value="id") String id, @RequestBody beanForBook book) {
 		
-		beanForBook bookObj=service.getBook(id);//repo.findById(id).get();
-		
+		beanForBook bookObj=service.getBook(id);//service.getBook(id)==repo.findById(id).get()
+		//beanForBook bookObj=repo.findById(id).get();//default method from JPARepository to find the record using the ID
 		bookObj.setAisle(book.getAisle());
 		bookObj.setAuthor(book.getAuthor());
 		bookObj.setBook_name(book.getBook_name());
 		
-		repo.save(bookObj);
+		repo.save(bookObj);//default method from JPARepository to save the record using the object
 		
 		return new ResponseEntity<beanForBook>(bookObj, HttpStatus.OK);
 	}
