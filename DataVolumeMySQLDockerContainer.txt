@@ -51,3 +51,4 @@ docker exec -it mysqlcontainername bash
 	delete from storage2 where isbn='111';
 	select * from storage2;
 docker run -p 7776:7776 -d --network springboot-mysql --name springbootcontainername nitinmanojkumar/spring-boot-library-microservice
+docker run -d -p 8090:8080 --name tomcatcontainer --network springboot-mysql nitinmanojkumar/tomcat-hello-world-image:latest
