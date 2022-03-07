@@ -51,3 +51,9 @@ docker exec -it mysqlcontainername bash
 	delete from storage2 where isbn='111';
 	select * from storage2;
 docker run -p 7776:7776 -d --network springboot-mysql --name springbootcontainername nitinmanojkumar/spring-boot-library-microservice
+
+StartCouchbase:
+docker volume create persistent-volume-couchbase
+docker run -p 8091:8091 -d --network springboot-mysql --name couchbasecontainername -v persistent-volume-couchbase:/opt/couchbase/var couchbase:latest
+docker run -p 8091-8094:8091-8094 -p 11210:11210 -d --network springboot-mysql --name couchbasecontainername -v persistent-volume-couchbase:/opt/couchbase/var couchbase:7.0.2
+docker run -p 8091-8094:8091-8094 -p 11210:11210 -d --network springboot-mysql --name couchbasecontainername -v persistent-volume-couchbase:/opt/couchbase/var couchbase
