@@ -8,7 +8,7 @@ docker create -v {source/host path}:{destination/path in the container}C:/Persis
 docker run -p 3306:3306 -d --cap-add=sys_nice --security-opt seccomp=unconfined --network springboot-mysql -e MYSQL_ROOT_PASSWORD=root --volumes-from mysqldata_as_volumne_in_host --name mysqlservercontainername mysql/mysql-server:8
 
 docker create -v {source/host path}:{destination/path in the container}C:/PersistentVolume/hostmachine:/var/lib/mysql --name mysqldata_as_volumne_in_host_notserver mysql:8
-docker run -p 3306:3306 -d --cap-add=sys_nice --security-opt seccomp=unconfined --network springboot-mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=APIDevelopSpringBoot --volumes-from mysqldata_as_volumne_in_host_notserver --name mysqlcontainername mysql:8
+docker run -p 3306:3307 -d --cap-add=sys_nice --security-opt seccomp=unconfined --network springboot-mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=APIDevelopSpringBoot --volumes-from mysqldata_as_volumne_in_host_notserver --name mysqlcontainername mysql:8
 
 4. Open mysql container in bash
 docker exec -it mysqlcontainername bash
